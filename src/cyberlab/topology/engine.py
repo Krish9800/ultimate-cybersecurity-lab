@@ -279,6 +279,16 @@ def build_default_enterprise_topology() -> TopologyConfig:
             dest_port=389,
             description="Allow DMZ to Corp DC LDAP",
         ),
+        FirewallRule(
+            rule_id="fw-022-dmz-to-corp-winrm",
+            priority=22,
+            action=FirewallAction.ALLOW,
+            source_zone=ZoneType.DMZ,
+            dest_zone=ZoneType.CORPORATE_LAN,
+            protocol=Protocol.TCP,
+            dest_port=5985,
+            description="Allow DMZ to Corp Workstation WinRM Remote Administration",
+        ),
         # Corporate LAN -> Workstation lateral execution
         FirewallRule(
             rule_id="fw-030-corp-intra-lan",
