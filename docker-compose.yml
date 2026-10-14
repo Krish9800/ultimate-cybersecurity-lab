@@ -1,0 +1,30 @@
+services:
+  cyberlab:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cyberlab:latest
+    container_name: ultimate-cybersecurity-lab
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - CYBERLAB_ENVIRONMENT=production
+      - CYBERLAB_API_HOST=0.0.0.0
+      - CYBERLAB_API_PORT=8000
+      - CYBERLAB_DB_PATH=/app/data/cyberlab.db
+      - CYBERLAB_WAL_MODE=true
+      - CYBERLAB_LOG_LEVEL=INFO
+    volumes:
+      - cyberlab-data:/app/data
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: false
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m
+
+volumes:
+  cyberlab-data:
+    driver: local
